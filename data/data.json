@@ -1,0 +1,16 @@
+{
+  "user": {
+    "id": "1",
+    "avatar": "https://fictionalfolks.netlify.app/avatars/selene.svg",
+    "username": "selenefarrow",
+    "firstName": "Selene",
+    "lastName": "Farrow",
+    "email": "selene@fakr.com",
+    "role": "user",
+    "createdAt": "2025-01-01",
+    "updatedAt": "2025-01-01"
+  },
+  "invalid": {
+    "email": "selene@fakr"
+  }
+}
