@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@netlify/functions": "^4.1.10",
-    "@types/node": "^24.0.13"
+    "@types/node": "^24.0.13",
+    "zod": "^4.0.5"
   }
 }
