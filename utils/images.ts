@@ -1,5 +1,5 @@
-interface Image {
-  description: string;
+interface UnsplashImage {
+  description: string | null;
   height: number;
   id: string;
   links: {
@@ -15,7 +15,12 @@ interface Image {
   width: number;
 }
 
-export const getImages = async () => {
+interface GetImagesOptions {
+  query?: string;
+  perPage?: number;
+}
+
+export const getImages = async (options?: GetImagesOptions) => {
   const apiBase = "https://api.unsplash.com/";
   const accessKey = process.env.UNSPLASH_ACCESS_KEY;
 
@@ -24,17 +29,20 @@ export const getImages = async () => {
   }
 
   try {
-    const response = await fetch(
-      `${apiBase}/search/photos?query=nature&per_page=30&client_id=${accessKey}`,
-    );
+    const url = new URL("/search/photos", apiBase);
+    url.searchParams.set("query", options?.query ?? "nature");
+    url.searchParams.set("per_page", options?.perPage?.toString() ?? "30");
+    url.searchParams.set("client_id", accessKey);
+
+    const response = await fetch(url.toString());
 
     if (response.ok) {
-      const data = (await response.json()) as { results: unknown[] };
-      const images = data.results.map((result) => {
-        const { description, height, id, links, user, urls, width } =
-          result as Image;
+      const data = (await response.json()) as { results?: unknown[] };
+      const results = (data.results ?? []) as UnsplashImage[];
+      const images = results.map((result) => {
+        const { description, height, id, links, user, urls, width } = result;
         return {
-          description,
+          description: description ?? "",
           height,
           id,
           link: links.html,

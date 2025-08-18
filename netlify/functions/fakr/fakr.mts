@@ -13,11 +13,18 @@ export default async (request: Request, context: Context) => {
   const { kind, status, field } = context.params as PathPattern;
 
   if (kind === "images") {
-    const images = await getImages();
-    return new Response(JSON.stringify(images), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    try {
+      const images = await getImages();
+      return new Response(JSON.stringify(images), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    } catch {
+      return new Response(JSON.stringify({ error: "Failed to fetch images" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
   }
 
   const isValid = isValidPathPattern(context.params);
