@@ -56,6 +56,33 @@ GET /fakr/user/invalid/email
 }
 ```
 
+### Get Images
+
+Returns an array of high-quality images from Unsplash, perfect for testing image galleries, carousels, or any feature requiring realistic photo content.
+
+```bash
+GET /fakr/images
+```
+
+**Response:**
+
+```json
+[
+  {
+    "description": "A beautiful landscape with mountains",
+    "height": 3168,
+    "id": "abc123",
+    "link": "https://unsplash.com/photos/abc123",
+    "username": "John Photographer",
+    "urls": {
+      "full": "https://images.unsplash.com/photo-123456789?ixid=...",
+      "regular": "https://images.unsplash.com/photo-123456789?ixid=...&w=1080"
+    },
+    "width": 4752
+  }
+]
+```
+
 ## Usage Examples
 
 ### Testing Form Validation
@@ -83,6 +110,25 @@ const user = await userResponse.json();
 document.getElementById("firstName").value = user.firstName;
 document.getElementById("lastName").value = user.lastName;
 document.getElementById("email").value = user.email;
+```
+
+### Testing Image Components
+
+```javascript
+// Load images for testing galleries or carousels
+const imagesResponse = await fetch(
+  "https://verdant-puffpuff-d076f3.netlify.app/fakr/images",
+);
+const images = await imagesResponse.json();
+
+// Use in your image gallery component
+images.forEach((image) => {
+  const img = document.createElement("img");
+  img.src = image.urls.regular;
+  img.alt = image.description;
+  img.width = 300; // Scale as needed
+  document.getElementById("gallery").appendChild(img);
+});
 ```
 
 ## Error Handling
