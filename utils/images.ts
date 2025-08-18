@@ -32,9 +32,13 @@ export const getImages = async (options?: GetImagesOptions) => {
     const url = new URL("/search/photos", apiBase);
     url.searchParams.set("query", options?.query ?? "nature");
     url.searchParams.set("per_page", options?.perPage?.toString() ?? "30");
-    url.searchParams.set("client_id", accessKey);
 
-    const response = await fetch(url.toString());
+    const response = await fetch(url.toString(), {
+      headers: {
+        Authorization: `Client-ID ${accessKey}`,
+        "Accept-Version": "v1",
+      },
+    });
 
     if (response.ok) {
       const data = (await response.json()) as { results?: unknown[] };
