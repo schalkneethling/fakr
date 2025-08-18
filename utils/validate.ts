@@ -1,7 +1,7 @@
 import { z } from "zod/v4";
 
 const pathPatternSchema = z.object({
-  kind: z.literal("user"),
+  kind: z.literal(["user", "images"]),
   status: z.literal("invalid").optional(),
   field: z.literal("email").optional(),
 });
