@@ -1,6 +1,7 @@
 import { Config, Context } from "@netlify/functions";
 
 import { isValidPathPattern, type PathPattern } from "../../../utils/validate";
+import { getImages } from "../../../utils/images";
 
 import data from "../../../data/data.json";
 
@@ -8,8 +9,23 @@ export const config: Config = {
   path: "/fakr/:kind/:status?/:field?",
 };
 
-export default (request: Request, context: Context) => {
+export default async (request: Request, context: Context) => {
   const { kind, status, field } = context.params as PathPattern;
+
+  if (kind === "images") {
+    try {
+      const images = await getImages();
+      return new Response(JSON.stringify(images), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    } catch {
+      return new Response(JSON.stringify({ error: "Failed to fetch images" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+  }
 
   const isValid = isValidPathPattern(context.params);
   if (Array.isArray(isValid)) {
