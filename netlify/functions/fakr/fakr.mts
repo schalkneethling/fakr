@@ -13,19 +13,19 @@ export default async (request: Request, context: Context) => {
   const { kind, status, field } = context.params as PathPattern;
 
   const allowedOrigins: string[] = [
-    "https://verdant-puffpuff-d076f3.netlify.app/",
+    "https://verdant-puffpuff-d076f3.netlify.app",
     "http://localhost:5500",
     "http://localhost:3000",
     "http://localhost:8080",
   ];
-  const origin = request.url;
 
   const defaultHeaders = {
     "Content-Type": "application/json",
     "Access-Control-Allow-Methods": "GET",
   } as Record<string, string>;
 
-  if (allowedOrigins.includes(origin)) {
+  const origin = request.headers.get("Origin");
+  if (origin && allowedOrigins.includes(origin)) {
     defaultHeaders["Access-Control-Allow-Origin"] = origin;
   }
 
