@@ -64,6 +64,14 @@ Returns an array of high-quality images from Unsplash, perfect for testing image
 GET /fakr/images
 ```
 
+#### Specify the number of images
+
+You can specify the number of images to return using the `perPage` URL parameter, for example:
+
+```bash
+GET /fakr/images?perPage=10
+```
+
 **Response:**
 
 ```json
