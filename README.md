@@ -2,6 +2,8 @@
 
 A simple REST-based service for generating fake data. Perfect for testing, prototyping, and development when you need realistic sample data.
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f1aee580-a8a3-4bd4-b625-a6b099784de1/deploy-status)](https://app.netlify.com/projects/verdant-puffpuff-d076f3/deploys)
+
 ## Live Demo
 
 🌐 **Production URL**: https://verdant-puffpuff-d076f3.netlify.app
