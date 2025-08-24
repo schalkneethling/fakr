@@ -37,8 +37,13 @@ export default async (request: Request, context: Context) => {
         perPage: 30,
       };
 
-      if (url.searchParams.get("perPage")) {
-        options.perPage = parseInt(url.searchParams.get("perPage") ?? "30");
+      const rawPerPage = url.searchParams.get("perPage");
+      if (rawPerPage) {
+        const perPage = parseInt(rawPerPage);
+
+        if (!isNaN(perPage)) {
+          options.perPage = Math.max(1, Math.min(perPage, 100));
+        }
       }
 
       const images = await getImages(options);
