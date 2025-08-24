@@ -31,7 +31,22 @@ export default async (request: Request, context: Context) => {
 
   if (kind === "images") {
     try {
-      const images = await getImages();
+      const url = new URL(request.url);
+
+      const options: { perPage: number } = {
+        perPage: 30,
+      };
+
+      const rawPerPage = url.searchParams.get("perPage");
+      if (rawPerPage) {
+        const perPage = parseInt(rawPerPage);
+
+        if (!isNaN(perPage)) {
+          options.perPage = Math.max(1, Math.min(perPage, 100));
+        }
+      }
+
+      const images = await getImages(options);
       return new Response(JSON.stringify(images), {
         status: 200,
         headers: defaultHeaders,
