@@ -29,9 +29,11 @@ export const getImages = async (options?: GetImagesOptions) => {
   }
 
   try {
+    const randombit = String(Math.random()).slice(2);
     const url = new URL("/search/photos", apiBase);
     url.searchParams.set("query", options?.query ?? "nature");
     url.searchParams.set("per_page", options?.perPage?.toString() ?? "30");
+    url.searchParams.set("random", randombit);
 
     const response = await fetch(url.toString(), {
       headers: {
