@@ -33,8 +33,10 @@ export default async (request: Request, context: Context) => {
     try {
       const url = new URL(request.url);
 
-      const options: { perPage: number } = {
+      const rawQuery = url.searchParams.get("query");
+      const options: { perPage: number; query: string } = {
         perPage: 30,
+        query: rawQuery ?? "nature",
       };
 
       const rawPerPage = url.searchParams.get("perPage");
