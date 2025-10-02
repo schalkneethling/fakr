@@ -21,6 +21,22 @@ interface GetImagesOptions {
   type?: "random" | "search";
 }
 
+const getImageData = (image: UnsplashImage) => {
+  const { description, height, id, links, user, urls, width } = image;
+  return {
+    description: description ?? "",
+    height,
+    id,
+    link: links.html,
+    username: user.name,
+    urls: {
+      full: urls.full,
+      regular: urls.regular,
+    },
+    width,
+  };
+};
+
 export const getImages = async (options?: GetImagesOptions) => {
   const apiBase = "https://api.unsplash.com/";
   const accessKey = process.env.UNSPLASH_ACCESS_KEY;
@@ -48,21 +64,14 @@ export const getImages = async (options?: GetImagesOptions) => {
 
     if (response.ok) {
       const data = (await response.json()) as { results?: unknown[] };
+
+      if (!Array.isArray(data)) {
+        return [getImageData(data as UnsplashImage)];
+      }
+
       const results = (data.results ?? []) as UnsplashImage[];
       const images = results.map((result) => {
-        const { description, height, id, links, user, urls, width } = result;
-        return {
-          description: description ?? "",
-          height,
-          id,
-          link: links.html,
-          username: user.name,
-          urls: {
-            full: urls.full,
-            regular: urls.regular,
-          },
-          width,
-        };
+        return getImageData(result);
       });
 
       return images;
