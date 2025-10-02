@@ -16,8 +16,9 @@ interface UnsplashImage {
 }
 
 interface GetImagesOptions {
-  query?: string;
   perPage?: number;
+  query?: string;
+  type?: "random" | "search";
 }
 
 export const getImages = async (options?: GetImagesOptions) => {
@@ -29,11 +30,14 @@ export const getImages = async (options?: GetImagesOptions) => {
   }
 
   try {
-    const randombit = String(Math.random()).slice(2);
-    const url = new URL("/search/photos", apiBase);
+    const endpoint =
+      options?.type === "random" ? "/photos/random" : "/search/photos";
+    const url = new URL(endpoint, apiBase);
     url.searchParams.set("query", options?.query ?? "nature");
-    url.searchParams.set("per_page", options?.perPage?.toString() ?? "30");
-    url.searchParams.set("random", randombit);
+
+    if (options?.type === "search") {
+      url.searchParams.set("per_page", options.perPage?.toString() ?? "30");
+    }
 
     const response = await fetch(url.toString(), {
       headers: {

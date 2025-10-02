@@ -34,9 +34,15 @@ export default async (request: Request, context: Context) => {
       const url = new URL(request.url);
 
       const rawQuery = url.searchParams.get("query");
-      const options: { perPage: number; query: string } = {
+      const rawType = url.searchParams.get("type");
+      const options: {
+        perPage: number;
+        query: string;
+        type: "random" | "search";
+      } = {
         perPage: 30,
         query: rawQuery ?? "nature",
+        type: rawType === "random" ? "random" : "search",
       };
 
       const rawPerPage = url.searchParams.get("perPage");
