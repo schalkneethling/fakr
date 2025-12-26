@@ -2,6 +2,8 @@
 
 A simple REST-based service for generating fake data. Perfect for testing, prototyping, and development when you need realistic sample data.
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f1aee580-a8a3-4bd4-b625-a6b099784de1/deploy-status)](https://app.netlify.com/projects/verdant-puffpuff-d076f3/deploys)
+
 ## Live Demo
 
 🌐 **Production URL**: https://verdant-puffpuff-d076f3.netlify.app
@@ -62,6 +64,14 @@ Returns an array of high-quality images from Unsplash, perfect for testing image
 
 ```bash
 GET /fakr/images
+```
+
+#### Specify the number of images
+
+You can specify the number of images to return using the `perPage` URL parameter, for example:
+
+```bash
+GET /fakr/images?perPage=10
 ```
 
 **Response:**
@@ -168,6 +178,18 @@ This is an evolving service. Feel free to contribute by:
 - Expanding existing data sets
 - Improving documentation
 - Reporting issues
+
+## Photo Credit
+
+- Photo by [Oliver Sjöström](https://unsplash.com/@ollivves) on [Unsplash](https://unsplash.com/photos/man-surfboarding-during-daytime-y-GMWtWW_H8)
+- Photo by [Knut Robinson](https://unsplash.com/@knut____robinson) on [Unsplash](https://unsplash.com/photos/man-in-black-shorts-surfing-on-sea-during-daytime-DTHtjyRuozs)
+- Photo by [Silas Baisch](https://unsplash.com/@silasbaisch) on [Unsplash](https://unsplash.com/photos/high-angle-photography-of-man-surfing-giant-wave-L78RstAZuTY)
+- Photo by [Sten Rademaker](https://unsplash.com/@stenrademaker) on [Unsplash](https://unsplash.com/photos/red-and-blue-kayaks-on-white-wooden-fence-1kXi2x9t9Fg)
+- Photo by [Taweeroj Eawpanich](https://unsplash.com/@surferholiday) on [Unsplash](https://unsplash.com/photos/woman-holding-white-surfboard-walking-on-shore-uJ1fwrVerpA)
+- Photo by [Jessica Wong](https://unsplash.com/@jess_adventures808) on [Unsplash](https://unsplash.com/photos/person-in-red-dress-walking-on-beach-during-sunset-a-uAZGSlS2g)
+- Photo by [Mathieu CHIRICO](https://unsplash.com/@matthewchrc) on [Unsplash](https://unsplash.com/photos/black-and-white-photo-of-man-surfing-JSEn2f96rzY)
+- Photo by [Vinh](https://unsplash.com/@nicolasvinh) on [Unsplash](https://unsplash.com/photos/a-woman-in-a-wet-suit-carrying-a-surfboard-VGiim2fPfmY)
+- Photo by [Erick Chévez](https://unsplash.com/@vuodesign) on [Unsplash](https://unsplash.com/photos/a-man-sitting-on-a-bench-holding-a-surfboard-wMHZsFZg7oI)
 
 ## MIT License
 

@@ -16,9 +16,26 @@ interface UnsplashImage {
 }
 
 interface GetImagesOptions {
-  query?: string;
   perPage?: number;
+  query?: string;
+  type?: "random" | "search";
 }
+
+const getImageData = (image: UnsplashImage) => {
+  const { description, height, id, links, user, urls, width } = image;
+  return {
+    description: description ?? "",
+    height,
+    id,
+    link: links.html,
+    username: user.name,
+    urls: {
+      full: urls.full,
+      regular: urls.regular,
+    },
+    width,
+  };
+};
 
 export const getImages = async (options?: GetImagesOptions) => {
   const apiBase = "https://api.unsplash.com/";
@@ -29,9 +46,14 @@ export const getImages = async (options?: GetImagesOptions) => {
   }
 
   try {
-    const url = new URL("/search/photos", apiBase);
+    const endpoint =
+      options?.type === "random" ? "/photos/random" : "/search/photos";
+    const url = new URL(endpoint, apiBase);
     url.searchParams.set("query", options?.query ?? "nature");
-    url.searchParams.set("per_page", options?.perPage?.toString() ?? "30");
+
+    if (options?.type === "search") {
+      url.searchParams.set("per_page", options.perPage?.toString() ?? "30");
+    }
 
     const response = await fetch(url.toString(), {
       headers: {
@@ -42,21 +64,14 @@ export const getImages = async (options?: GetImagesOptions) => {
 
     if (response.ok) {
       const data = (await response.json()) as { results?: unknown[] };
+
+      if (!Array.isArray(data)) {
+        return [getImageData(data as UnsplashImage)];
+      }
+
       const results = (data.results ?? []) as UnsplashImage[];
       const images = results.map((result) => {
-        const { description, height, id, links, user, urls, width } = result;
-        return {
-          description: description ?? "",
-          height,
-          id,
-          link: links.html,
-          username: user.name,
-          urls: {
-            full: urls.full,
-            regular: urls.regular,
-          },
-          width,
-        };
+        return getImageData(result);
       });
 
       return images;
